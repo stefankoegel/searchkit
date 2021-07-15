@@ -70,7 +70,10 @@ export const dropIndices = async (config) => {
 
   try {
     await client.indices.delete({ index: config.index })
-  } catch (e) {}
+  } catch (e) {
+    console.log(e.toString());
+    console.log('Failed to delete indices.')
+  }
 }
 
 export const createIndices = async (config) => {
@@ -81,7 +84,8 @@ export const createIndices = async (config) => {
   try {
     await client.indices.create({ index: config.index })
   } catch (e) {
-    throw new Error('Could not create indices. Might of failed to delete Indices.')
+    console.log(e.toString());
+    throw new Error('Could not create indices. Might have failed to delete Indices.')
   }
 }
 
