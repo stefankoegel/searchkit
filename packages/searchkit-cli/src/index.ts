@@ -87,3 +87,23 @@ export const withConfig = async (config: CliConfig) => {
     }
   }
 }
+
+export const withConfigWithoutPrompt = async (config: CliConfig) => {
+
+  let mapping = getMapping(config)
+
+  const skConfig = getSearchkitConfig(config, mapping)
+  const c = getSKQuickStartText({
+    ...skConfig,
+    host: config.host,
+    index: config.index,
+    mapping
+  })
+  fs.writeFileSync(path.join(process.cwd(), '/skConfig.md'), c)
+
+  await dropIndices(config)
+  await createIndices(config)
+  await addMappingES7(config)
+
+  await indexDocs(config)
+}
